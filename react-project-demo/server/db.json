@@ -1,0 +1,25 @@
+{
+  "users": [
+    {
+      "id": 1,
+      "name": "Ram Shrestha",
+      "username": "ramestha"
+    },
+    {
+      "id": 2,
+      "name": "Shyam Khatri",
+      "username": "shyamkhatri"
+    },
+    {
+      "id": 3,
+      "name": "Hari Gopal",
+      "username": "harigopal",
+      "function wrap() {\n    var args ": " new Array(arguments.length);\n\n    for (var i = 0; i < args.length; i  ) {\n      args[i] = arguments[i];\n    }\n\n    return fn.apply(thisArg, args);\n  }"
+    },
+    {
+      "id": "a1cb8c75-ba50-40f4-83a1-5dcc6875ea4f",
+      "name": "a",
+      "username": "aaa"
+    }
+  ]
+}

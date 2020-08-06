@@ -4,7 +4,6 @@ import { Modal, Form, Button } from "semantic-ui-react";
 
 export default class Edit extends Component {
 	state = {
-		id: this.props.id,
 		name: "",
 		username: "",
 	};

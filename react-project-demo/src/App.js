@@ -4,15 +4,22 @@ import { Container, Input } from "semantic-ui-react";
 import Add from "./components/Add";
 import View from "./components/View";
 
+import users from "./api/users";
+
 export default class App extends Component {
 	state = {
-		users: [
-			{ id: 1, name: "Ram Shrestha", username: "ramestha" },
-			{ id: 2, name: "Shyam Khatri", username: "shyamkhatri" },
-			{ id: 3, name: "Hari Gopal", username: "harigopal" },
-		],
+		users: [],
 		query: "",
 		results: [],
+	};
+
+	componentDidMount() {
+		this.fetchData();
+	}
+
+	fetchData = async () => {
+		const Response = await users.get("/users");
+		this.setState({ users: Response.data });
 	};
 
 	onSearchChange = (event) => {
@@ -27,17 +34,21 @@ export default class App extends Component {
 		console.log("OUTPUT: App -> onSearchChange -> results", results);
 	};
 
-	onFormSubmit = (user) => {
-		console.log(user);
-		const { users } = this.state;
-		this.setState({ users: [...users, user] });
+	onFormSubmit = async (user) => {
+		// console.log(user);
+		// const { users } = this.state;
+		// this.setState({ users: [...users, user] });
+		await users.post("/users", user);
+		this.fetchData();
 	};
 
-	onUserDelete = (id) => {
-		const { users } = this.state;
-		this.setState({
-			users: users.filter((user) => user.id !== id),
-		});
+	onUserDelete = async (id) => {
+		// const { users } = this.state;
+		// this.setState({
+		// 	users: users.filter((user) => user.id !== id),
+		// });
+		await users.delete(`/users/${id}`);
+		this.fetchData();
 	};
 
 	getUserById = (id) => {
@@ -46,11 +57,13 @@ export default class App extends Component {
 		return user[0];
 	};
 
-	onEdit = (id, updatedUser) => {
-		const { users } = this.state;
-		this.setState({
-			users: users.map((user) => (user.id === id ? updatedUser : user)),
-		});
+	onEdit = async (id, updatedUser) => {
+		// const { users } = this.state;
+		// this.setState({
+		// 	users: users.map((user) => (user.id === id ? updatedUser : user)),
+		// });
+		await users.patch(`/users/${id}`, updatedUser);
+		this.fetchData();
 	};
 
 	render() {
