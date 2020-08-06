@@ -11,10 +11,20 @@ export default class App extends Component {
 			{ id: 2, name: "Shyam Khatri", username: "shyamkhatri" },
 			{ id: 3, name: "Hari Gopal", username: "harigopal" },
 		],
+		query: "",
+		results: [],
 	};
 
 	onSearchChange = (event) => {
-		console.log(event.target.value);
+		const value = event.target.value;
+		const { users } = this.state;
+		this.setState({ query: value });
+		const results = users.filter((user) => {
+			const regex = new RegExp(value, "gi");
+			return user.name.match(regex);
+		});
+		this.setState({ results });
+		console.log("OUTPUT: App -> onSearchChange -> results", results);
 	};
 
 	onFormSubmit = (user) => {
@@ -23,8 +33,16 @@ export default class App extends Component {
 		this.setState({ users: [...users, user] });
 	};
 
-	render() {
+	onUserDelete = (id) => {
 		const { users } = this.state;
+		this.setState({
+			users: users.filter((user) => user.id !== id),
+		});
+	};
+
+	render() {
+		const { users, results, query } = this.state;
+		const data = results.length === 0 && !query ? users : results;
 
 		return (
 			<Container>
@@ -35,7 +53,7 @@ export default class App extends Component {
 						placeholder="search"
 						onChange={this.onSearchChange}
 					></Input>
-					<View data={users}></View>
+					<View data={data} onDeleteClick={this.onUserDelete}></View>
 				</div>
 			</Container>
 		);

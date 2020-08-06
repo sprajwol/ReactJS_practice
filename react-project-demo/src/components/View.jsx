@@ -4,9 +4,13 @@ import { Table, Button } from "semantic-ui-react";
 import Edit from "./Edit";
 
 export default class View extends Component {
+	onUserDelete = (id) => {
+		this.props.onDeleteClick(id);
+	};
+
 	render() {
 		const { data } = this.props;
-		console.log(data);
+
 		return (
 			<div>
 				<Edit></Edit>
@@ -20,12 +24,18 @@ export default class View extends Component {
 					</Table.Header>
 					<Table.Body>
 						{data.map((user) => (
-							<Table.Row>
+							<Table.Row key={user.id}>
 								<Table.Cell>{user.name}</Table.Cell>
 								<Table.Cell>{user.username}</Table.Cell>
 								<Table.Cell>
 									<Button content="Edit"></Button>
-									<Button content="Delete"></Button>
+									<Button
+										content="Delete"
+										onClick={this.onUserDelete.bind(
+											this,
+											user.id
+										)}
+									></Button>
 								</Table.Cell>
 							</Table.Row>
 						))}
