@@ -40,6 +40,19 @@ export default class App extends Component {
 		});
 	};
 
+	getUserById = (id) => {
+		const { users } = this.state;
+		const user = users.filter((user) => user.id === id);
+		return user[0];
+	};
+
+	onEdit = (id, updatedUser) => {
+		const { users } = this.state;
+		this.setState({
+			users: users.map((user) => (user.id === id ? updatedUser : user)),
+		});
+	};
+
 	render() {
 		const { users, results, query } = this.state;
 		const data = results.length === 0 && !query ? users : results;
@@ -53,7 +66,12 @@ export default class App extends Component {
 						placeholder="search"
 						onChange={this.onSearchChange}
 					></Input>
-					<View data={data} onDeleteClick={this.onUserDelete}></View>
+					<View
+						data={data}
+						onDeleteClick={this.onUserDelete}
+						getUserById={this.getUserById}
+						onEdit={this.onEdit}
+					></View>
 				</div>
 			</Container>
 		);
